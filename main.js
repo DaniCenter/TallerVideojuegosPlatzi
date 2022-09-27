@@ -6,7 +6,6 @@ window.addEventListener("resize", ajustar);
 
 function startGame() {
   ajustar();
-  render();
 }
 function ajustar() {
   if (window.innerHeight > window.innerWidth) {
@@ -22,9 +21,17 @@ function render() {
   const elementSize = canvasSize / 10;
   ctx.textAlign = "end";
   ctx.font = elementSize + "px Arial";
-  for (let j = 1; j <= 10; j++) {
-    for (let i = 1; i <= 10; i++) {
-      ctx.fillText(emojis["X"], elementSize * i, elementSize * j);
-    }
-  }
+
+  const map = maps[0];
+  const mapRows = map
+    .trim()
+    .split("\n")
+    .map((a) => a.trim().split(""));
+  console.log(mapRows);
+
+  mapRows.forEach((j, jI) => {
+    j.forEach((i, iI) => {
+      ctx.fillText(emojis[i], elementSize * (iI + 1), elementSize * (jI + 1));
+    });
+  });
 }
