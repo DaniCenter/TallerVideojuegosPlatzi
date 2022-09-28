@@ -16,6 +16,7 @@ const giftPosition = {
 let enemysPosition = [];
 let flasg = true;
 let nivel = 0;
+let vidas = 3;
 
 function startGame() {
   ajustar();
@@ -32,6 +33,14 @@ function render() {
   ctx.font = elementSize + "px Arial";
 
   const map = maps[nivel];
+  if (!map) {
+    gameWin();
+    ctx.textAlign = "center";
+    ctx.font = canvasSize * 0.09 + "pt Arial";
+    ctx.fillStyle = "red";
+    ctx.fillText("GANASTE", canvasSize / 2, canvasSize / 2);
+    return;
+  }
   const mapRows = map
     .trim()
     .split("\n")
@@ -140,14 +149,21 @@ function comprobarGift() {
 }
 function comprobarEnemy() {
   if (enemysPosition.find((e) => e.x == Math.round(playerPosition.x) && e.y == Math.round(playerPosition.y))) {
+    vidas--;
     reiniciar();
   }
 }
 function reiniciar() {
+  if (vidas == 0) {
+    nivel = 0;
+    vidas = 3;
+  }
   flasg = true;
   enemysPosition = [];
-  nivel = 0;
   playerPosition.x = undefined;
   playerPosition.y = undefined;
   actualizarJugador();
+}
+function gameWin() {
+  console.log("GANASTEE");
 }
