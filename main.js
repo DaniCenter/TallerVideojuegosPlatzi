@@ -117,6 +117,7 @@ function botonPresionado(e) {
     }
   }
   comprobarGift();
+  comprobarEnemy();
 }
 function renderJugador() {
   ctx.fillText(emojis.PLAYER, playerPosition.x, playerPosition.y);
