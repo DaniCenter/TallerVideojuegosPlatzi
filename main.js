@@ -74,7 +74,34 @@ function movimiento(e) {
   }
 }
 function botonPresionado(e) {
-  if (e.path[0].className != "btns") console.log(e.path[0]);
+  if (e.path[0].className != "btns") {
+    switch (e.path[0].id) {
+      case "up":
+        if (!(playerPosition.y - canvasSize / 10 <= 0)) {
+          playerPosition.y -= canvasSize / 10;
+          actualizarJugador();
+        }
+        break;
+      case "left":
+        if (!(playerPosition.x - canvasSize / 10 <= 0)) {
+          playerPosition.x -= canvasSize / 10;
+          actualizarJugador();
+        }
+        break;
+      case "right":
+        if (!(playerPosition.x + canvasSize / 10 > canvasSize)) {
+          playerPosition.x += canvasSize / 10;
+          actualizarJugador();
+        }
+        break;
+      case "down":
+        if (!(playerPosition.y + canvasSize / 10 > canvasSize)) {
+          playerPosition.y += canvasSize / 10;
+          actualizarJugador();
+        }
+        break;
+    }
+  }
 }
 function renderJugador() {
   ctx.fillText(emojis.PLAYER, playerPosition.x, playerPosition.y);
