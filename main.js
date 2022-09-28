@@ -68,6 +68,7 @@ function render() {
     });
   });
   flasg = false;
+  MostrarVidas();
 }
 function movimiento(e) {
   switch (e.key) {
@@ -168,4 +169,7 @@ function reiniciar() {
 }
 function gameWin() {
   console.log("GANASTEE");
+}
+function MostrarVidas() {
+  document.getElementById("lives").innerHTML = "❤️".repeat(vidas);
 }
