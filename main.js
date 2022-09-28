@@ -37,12 +37,6 @@ function render() {
   const map = maps[nivel];
   if (!map) {
     gameWin();
-    ctx.textAlign = "center";
-    ctx.font = canvasSize * 0.09 + "pt Arial";
-    ctx.fillStyle = "red";
-    ctx.fillText("GANASTE", canvasSize / 2, canvasSize / 2);
-    window.removeEventListener("keydown", movimiento);
-    document.querySelector(".btns").removeEventListener("click", botonPresionado);
     return;
   }
   const mapRows = map
@@ -176,13 +170,19 @@ function reiniciar() {
   actualizarJugador();
 }
 function gameWin() {
-  console.log("GANASTEE");
+  clearInterval(inervalo);
+  ctx.textAlign = "center";
+  ctx.font = canvasSize * 0.09 + "pt Arial";
+  ctx.fillStyle = "red";
+  ctx.fillText("GANASTE", canvasSize / 2, canvasSize / 2);
+  window.removeEventListener("keydown", movimiento);
+  document.querySelector(".btns").removeEventListener("click", botonPresionado);
 }
 function MostrarVidas() {
   document.getElementById("lives").innerHTML = "❤️".repeat(vidas);
 }
 function contador() {
-  setInterval(function () {
+  inervalo = setInterval(function () {
     let elapsedTime = Date.now() - startTime;
     document.getElementById("timer").innerHTML = (elapsedTime / 1000).toFixed(2);
   }, 100);
