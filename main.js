@@ -17,6 +17,8 @@ let enemysPosition = [];
 let flasg = true;
 let nivel = 0;
 let vidas = 3;
+let startTime;
+let contadorIniciado = false;
 
 function startGame() {
   ajustar();
@@ -76,6 +78,7 @@ function movimiento(e) {
       if (!(playerPosition.y - canvasSize / 10 <= 0)) {
         playerPosition.y -= canvasSize / 10;
         actualizarJugador();
+        contadorIniciado = true;
       }
       break;
     case "ArrowDown":
@@ -96,6 +99,10 @@ function movimiento(e) {
         actualizarJugador();
       }
       break;
+  }
+  if (startTime == undefined) {
+    startTime = Date.now();
+    contador();
   }
   comprobarGift();
   comprobarEnemy();
@@ -160,6 +167,7 @@ function reiniciar() {
   if (vidas == 0) {
     nivel = 0;
     vidas = 3;
+    startTime = undefined;
   }
   flasg = true;
   enemysPosition = [];
@@ -172,4 +180,10 @@ function gameWin() {
 }
 function MostrarVidas() {
   document.getElementById("lives").innerHTML = "❤️".repeat(vidas);
+}
+function contador() {
+  setInterval(function () {
+    let elapsedTime = Date.now() - startTime;
+    document.getElementById("timer").innerHTML = (elapsedTime / 1000).toFixed(2);
+  }, 100);
 }
