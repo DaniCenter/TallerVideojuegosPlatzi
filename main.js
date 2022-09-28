@@ -5,10 +5,16 @@ window.addEventListener("load", startGame);
 window.addEventListener("resize", ajustar);
 window.addEventListener("keydown", movimiento);
 document.querySelector(".btns").addEventListener("click", botonPresionado);
-let playerPosition = {
+const playerPosition = {
   x: undefined,
   y: undefined,
 };
+const giftPosition = {
+  x: undefined,
+  y: undefined,
+};
+let enemysPosition = [];
+let flasg = true;
 
 function startGame() {
   ajustar();
@@ -17,9 +23,7 @@ function ajustar() {
   canvasSize = window.innerHeight > window.innerWidth ? window.innerWidth * 0.9 : (canvasSize = window.innerHeight * 0.7);
   canvas.setAttribute("height", canvasSize);
   canvas.setAttribute("width", canvasSize);
-  playerPosition.x = undefined;
-  playerPosition.y = undefined;
-  render();
+  reiniciar();
 }
 function render() {
   const elementSize = canvasSize / 10;
@@ -35,6 +39,13 @@ function render() {
   mapRows.forEach((j, jI) => {
     j.forEach((i, iI) => {
       ctx.fillText(emojis[i], elementSize * (iI + 1), elementSize * (jI + 1));
+      if (i == "X" && flasg) {
+        enemysPosition.push({ x: Math.round(elementSize * (iI + 1)), y: Math.round(elementSize * (jI + 1)) });
+      }
+      if (i == "I") {
+        giftPosition.x = elementSize * (iI + 1);
+        giftPosition.y = elementSize * (jI + 1);
+      }
       if (i == "O" && playerPosition.x == undefined) {
         playerPosition.x = elementSize * (iI + 1);
         playerPosition.y = elementSize * (jI + 1);
@@ -44,6 +55,7 @@ function render() {
       }
     });
   });
+  flasg = false;
 }
 function movimiento(e) {
   switch (e.key) {
@@ -72,6 +84,8 @@ function movimiento(e) {
       }
       break;
   }
+  comprobarGift();
+  comprobarEnemy();
 }
 function botonPresionado(e) {
   if (e.path[0].className != "btns") {
@@ -102,6 +116,7 @@ function botonPresionado(e) {
         break;
     }
   }
+  comprobarGift();
 }
 function renderJugador() {
   ctx.fillText(emojis.PLAYER, playerPosition.x, playerPosition.y);
@@ -110,4 +125,19 @@ function actualizarJugador() {
   ctx.clearRect(0, 0, canvasSize, canvasSize);
   render();
   renderJugador();
+}
+function comprobarGift() {
+  if (Math.round(playerPosition.x) == Math.round(giftPosition.x) && Math.round(playerPosition.y) == Math.round(giftPosition.y)) {
+    console.log("Nivel siguiente");
+  }
+}
+function comprobarEnemy() {
+  if (enemysPosition.find((e) => e.x == Math.round(playerPosition.x) && e.y == Math.round(playerPosition.y))) {
+    reiniciar();
+  }
+}
+function reiniciar() {
+  playerPosition.x = undefined;
+  playerPosition.y = undefined;
+  actualizarJugador();
 }
