@@ -39,6 +39,8 @@ function render() {
     ctx.font = canvasSize * 0.09 + "pt Arial";
     ctx.fillStyle = "red";
     ctx.fillText("GANASTE", canvasSize / 2, canvasSize / 2);
+    window.removeEventListener("keydown", movimiento);
+    document.querySelector(".btns").removeEventListener("click", botonPresionado);
     return;
   }
   const mapRows = map
