@@ -15,6 +15,7 @@ const giftPosition = {
 };
 let enemysPosition = [];
 let flasg = true;
+let nivel = 0;
 
 function startGame() {
   ajustar();
@@ -30,7 +31,7 @@ function render() {
   ctx.textAlign = "end";
   ctx.font = elementSize + "px Arial";
 
-  const map = maps[0];
+  const map = maps[nivel];
   const mapRows = map
     .trim()
     .split("\n")
@@ -129,6 +130,11 @@ function actualizarJugador() {
 }
 function comprobarGift() {
   if (Math.round(playerPosition.x) == Math.round(giftPosition.x) && Math.round(playerPosition.y) == Math.round(giftPosition.y)) {
+    nivel++;
+    flasg = true;
+    enemysPosition = [];
+    ctx.clearRect(0, 0, canvasSize, canvasSize);
+    render();
     console.log("Nivel siguiente");
   }
 }
@@ -138,6 +144,9 @@ function comprobarEnemy() {
   }
 }
 function reiniciar() {
+  flasg = true;
+  enemysPosition = [];
+  nivel = 0;
   playerPosition.x = undefined;
   playerPosition.y = undefined;
   actualizarJugador();
