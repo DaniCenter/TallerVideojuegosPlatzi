@@ -108,6 +108,7 @@ function botonPresionado(e) {
         if (!(playerPosition.y - canvasSize / 10 <= 0)) {
           playerPosition.y -= canvasSize / 10;
           actualizarJugador();
+          contadorIniciado = true;
         }
         break;
       case "left":
@@ -129,6 +130,10 @@ function botonPresionado(e) {
         }
         break;
     }
+  }
+  if (startTime == undefined) {
+    startTime = Date.now();
+    contador();
   }
   comprobarGift();
   comprobarEnemy();
