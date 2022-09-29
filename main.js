@@ -19,6 +19,7 @@ let nivel = 0;
 let vidas = 3;
 let startTime;
 let contadorIniciado = false;
+let elapsedTime;
 
 function startGame() {
   ajustar();
@@ -63,6 +64,7 @@ function render() {
       }
     });
   });
+  document.getElementById("record").innerHTML = localStorage.getItem("recordTime");
   flasg = false;
   MostrarVidas();
 }
@@ -182,13 +184,20 @@ function gameWin() {
   ctx.fillText("GANASTE", canvasSize / 2, canvasSize / 2);
   window.removeEventListener("keydown", movimiento);
   document.querySelector(".btns").removeEventListener("click", botonPresionado);
+  if (localStorage.getItem("recordTime") == null) {
+    localStorage.setItem("recordTime", (elapsedTime / 1000).toFixed(2));
+  } else {
+    if (localStorage.getItem("recordTime") > (elapsedTime / 1000).toFixed(2)) {
+      localStorage.setItem("recordTime", (elapsedTime / 1000).toFixed(2));
+    }
+  }
 }
 function MostrarVidas() {
   document.getElementById("lives").innerHTML = "❤️".repeat(vidas);
 }
 function contador() {
   inervalo = setInterval(function () {
-    let elapsedTime = Date.now() - startTime;
+    elapsedTime = Date.now() - startTime;
     document.getElementById("timer").innerHTML = (elapsedTime / 1000).toFixed(2);
   }, 100);
 }
